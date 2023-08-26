@@ -1,0 +1,63 @@
+.main-container {
+  max-width: 1480px;
+  width: auto;
+  padding: 15px 15px;
+  margin: auto;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+
+}
+
+.explorer-header{
+  display: flex;
+  flex-direction: column;
+}
+
+.info-section {
+  display: flex;
+  padding-top: 15px;
+  
+
+}
+
+.transactions{
+  text-align: left;
+  height: 616px;
+}
+
+.pagination-section{
+  padding: 10px;
+}
+
+.transaction-info{
+  text-align: left;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+}
+
+.transaction-info-details{
+  display:flex;
+  flex-direction: row;
+  justify-content: space-between;
+  min-width: 500px;
+}
+
+.search-box{
+  margin-left: auto;
+  margin-right:auto;
+  max-width: 500px;
+}
+
+.wallet-info{
+  margin-top: 50px;
+}
+
+.wallet-info-balance{
+  margin-top: 15px;
+}
