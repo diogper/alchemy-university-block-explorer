@@ -61,3 +61,20 @@
 .wallet-info-balance{
   margin-top: 15px;
 }
+
+.erc20tokens {
+  margin-left: auto;
+  margin-right:auto;
+  max-width: 500px;
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.erc20Logo{
+  margin-right: 10px;
+}
+
+.ethLogo{
+  margin-right: 15px;
+}

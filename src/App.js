@@ -33,6 +33,7 @@ function App() {
   const [currentTransactionObj, setTransactionObj] = useState(null);
   const [currentWallet, setWallet] = useState(null);
   const [currentWalletBalance, setWalletBalance] = useState(null);
+  const [currentWalletTokens, setWalletTokens] = useState(null);
 
   const goToPage = (pageNumber) => {
     if (pageNumber >= 1 && pageNumber <= totalPages) {
@@ -143,8 +144,31 @@ function App() {
       }
     }
 
+    async function getWalletTokens(addr){
+      try{
+        const tokenBalances = await alchemy.core.getTokenBalances(addr);
+        // console.log(tokenBalances);
+        const tokens = tokenBalances.tokenBalances;
+        console.log(tokens);
+        const tokensMeta = {}
+        for(let i = 0; i < tokens.length; i++){
+          tokensMeta[tokens[i].contractAddress] = await alchemy.core.getTokenMetadata(tokens[i].contractAddress);
+          tokensMeta[tokens[i].contractAddress].balance = tokens[i].tokenBalance;
+        }
+        // console.log(tokensMeta);
+        // const metaData = await alchemy.core.getTokenMetadata(tokenAddresses);
+        // console.log(metaData);
+        setWalletTokens(tokensMeta);
+        // console.log(currentWalletTokens);
+        // Object.entries(currentWalletTokens).map(([key, value]) => console.log(key +':' + '|'+value.name + '|' + value.logo + '=>' + value.balance));
+      } catch(error) {
+        console.error('Error fetching data:', error);
+      }
+    }
+
     if(currentWallet !== null){
       getWalletBalance(currentWallet);
+      getWalletTokens(currentWallet);
     }
 
   }, [currentWallet]);
@@ -241,8 +265,28 @@ function App() {
           </Col>
           </Row>
           <Row className="wallet-info-balance">
-            <h6 className="text-muted">Balance:</h6>
-            <h6 className="text-dark">{currentWalletBalance ? Utils.formatEther(currentWalletBalance):"_"}</h6>
+            {/* <h6 className="text-muted">Balance:</h6>
+            <h6 className="text-dark">{currentWalletBalance ? Utils.formatEther(currentWalletBalance):"_"}</h6> */}
+            {/* {currentWalletTokens !== null ? ( */}
+            {currentWalletTokens !== null ? <ListGroup className="transactions">
+            <ListGroup.Item className="erc20tokens" key='xyz' action variant="primary">
+            <h6 className="text-dark"> 
+              <img className="ethLogo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Ethereum_logo.svg/1285px-Ethereum_logo.svg.png" alt="Logo" style={{maxWidth: "20px"}} />
+              Ether
+            </h6>
+            <h6>{currentWalletBalance ? Utils.formatEther(currentWalletBalance):"_"}</h6>
+            
+            </ListGroup.Item>
+              {Object.entries(currentWalletTokens).map(([key, value]) => 
+                <ListGroup.Item className="erc20tokens" key={key} action variant="primary">
+                  <h6 className="text-dark"> 
+                    <img className="erc20Logo" src={value.logo} alt="Logo" width="25" height="25" /> 
+                    {value.name}
+                  </h6> 
+                  <h6>{Utils.formatEther(value.balance, value.decimals)}</h6>
+                </ListGroup.Item>)}
+            </ListGroup> : ""}
+                
           </Row>
         </Col>
         
